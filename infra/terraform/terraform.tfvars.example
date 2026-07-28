@@ -1,0 +1,16 @@
+region                = "eu-west-101"
+project_name          = "finops-optimizer"
+environment           = "production"
+enterprise_project_id = "0"
+key_pair_name         = "platform-team-keypair"
+node_flavor           = "s6.large.2"
+node_pool_min         = 2
+node_pool_max         = 6
+cost_export_bucket_name = "company-finops-cost-export-unique-suffix"
+
+tags = {
+  owner       = "platform-team"
+  cost-center = "CC-300"
+  product     = "Shared"
+  managed-by  = "terraform"
+}

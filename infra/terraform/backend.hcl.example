@@ -1,0 +1,4 @@
+bucket         = "company-terraform-state"
+key            = "finops-optimizer/production.tfstate"
+region         = "eu-west-101"
+encrypt        = true

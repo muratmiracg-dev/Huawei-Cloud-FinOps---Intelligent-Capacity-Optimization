@@ -1,0 +1,558 @@
+{
+  "summary": {
+    "current_monthly_cost": 6133.36,
+    "estimated_monthly_savings": 1520.7,
+    "savings_opportunity_pct": 24.79,
+    "annualized_savings": 18248.4,
+    "allocation_coverage_pct": 97.43,
+    "budget_coverage_pct": 100.0,
+    "recommendation_count": 21,
+    "high_risk_count": 1,
+    "anomaly_count": 2,
+    "maturity_score": 96.4,
+    "currency": "USD"
+  },
+  "recommendations": [
+    {
+      "recommendation_id": "rec-122c7cb9e4",
+      "resource_id": "cce-prod-node-b",
+      "resource_name": "cce-commerce-prod-b",
+      "service": "CCE_NODE",
+      "recommendation_type": "capacity_risk",
+      "action": "Increase capacity or enable policy-based autoscaling before the next peak window.",
+      "rationale": "P95 utilization exceeds the safe operating threshold after required headroom.",
+      "current_monthly_cost": 740.0,
+      "estimated_monthly_savings": 0.0,
+      "estimated_savings_pct": 0.0,
+      "risk": "high",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 91.76,
+        "memory_p95_pct": 96.13,
+        "network_p95_pct": 61.92,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-4f7476c336",
+      "resource_id": "cce-prod-node-a",
+      "resource_name": "cce-commerce-prod-a",
+      "service": "CCE_NODE",
+      "recommendation_type": "rightsize",
+      "action": "Evaluate a 8-vCPU target flavor with 25% capacity headroom.",
+      "rationale": "P95 CPU and memory remain below rightsizing thresholds across the observation window.",
+      "current_monthly_cost": 740.0,
+      "estimated_monthly_savings": 207.2,
+      "estimated_savings_pct": 28.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 28.68,
+        "memory_p95_pct": 40.17,
+        "network_p95_pct": 23.08,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-4e644c49ca",
+      "resource_id": "ecs-dev-sandbox-01",
+      "resource_name": "developer-sandbox-01",
+      "service": "ECS",
+      "recommendation_type": "idle_resource",
+      "action": "Stop the workload after owner approval; retain a reversible recovery path.",
+      "rationale": "Sustained P95 CPU, memory, and network activity indicate an idle non-production workload.",
+      "current_monthly_cost": 210.0,
+      "estimated_monthly_savings": 163.8,
+      "estimated_savings_pct": 78.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 7.91,
+        "memory_p95_pct": 12.31,
+        "network_p95_pct": 5.99,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-4b4d4c0ade",
+      "resource_id": "cce-dev-node-01",
+      "resource_name": "cce-dev-node-01",
+      "service": "CCE_NODE",
+      "recommendation_type": "schedule",
+      "action": "Apply an owner-approved weekday schedule with automatic morning start.",
+      "rationale": "Non-production resource runs continuously despite a business-hours workload profile.",
+      "current_monthly_cost": 330.0,
+      "estimated_monthly_savings": 158.4,
+      "estimated_savings_pct": 48.0,
+      "risk": "low",
+      "confidence": 0.9,
+      "evidence": {
+        "current_schedule": "24x7"
+      }
+    },
+    {
+      "recommendation_id": "rec-4d67bd5865",
+      "resource_id": "rds-analytics-prod",
+      "resource_name": "analytics-postgres-prod",
+      "service": "RDS",
+      "recommendation_type": "rightsize",
+      "action": "Evaluate a 4-vCPU target flavor with 25% capacity headroom.",
+      "rationale": "P95 CPU and memory remain below rightsizing thresholds across the observation window.",
+      "current_monthly_cost": 520.0,
+      "estimated_monthly_savings": 145.6,
+      "estimated_savings_pct": 28.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 21.62,
+        "memory_p95_pct": 37.01,
+        "network_p95_pct": 14.93,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-593e53972c",
+      "resource_id": "ecs-prod-web-02",
+      "resource_name": "commerce-web-prod-02",
+      "service": "ECS",
+      "recommendation_type": "rightsize",
+      "action": "Evaluate a 4-vCPU target flavor with 25% capacity headroom.",
+      "rationale": "P95 CPU and memory remain below rightsizing thresholds across the observation window.",
+      "current_monthly_cost": 510.0,
+      "estimated_monthly_savings": 142.8,
+      "estimated_savings_pct": 28.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 24.28,
+        "memory_p95_pct": 33.44,
+        "network_p95_pct": 22.06,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-49437459f1",
+      "resource_id": "rds-orders-prod",
+      "resource_name": "orders-mysql-prod",
+      "service": "RDS",
+      "recommendation_type": "commitment",
+      "action": "Compare a one-year commitment or savings plan against the validated baseline.",
+      "rationale": "Stable production utilization makes the pay-per-use baseline a commitment candidate.",
+      "current_monthly_cost": 690.0,
+      "estimated_monthly_savings": 124.2,
+      "estimated_savings_pct": 18.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 54.64,
+        "memory_p95_pct": 71.55,
+        "network_p95_pct": 33.35,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-3031a48808",
+      "resource_id": "ecs-prod-web-01",
+      "resource_name": "commerce-web-prod-01",
+      "service": "ECS",
+      "recommendation_type": "commitment",
+      "action": "Compare a one-year commitment or savings plan against the validated baseline.",
+      "rationale": "Stable production utilization makes the pay-per-use baseline a commitment candidate.",
+      "current_monthly_cost": 620.0,
+      "estimated_monthly_savings": 111.6,
+      "estimated_savings_pct": 18.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 59.13,
+        "memory_p95_pct": 67.98,
+        "network_p95_pct": 37.76,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-2c21430e89",
+      "resource_id": "cce-prod-node-a",
+      "resource_name": "cce-commerce-prod-a",
+      "service": "CCE_NODE",
+      "recommendation_type": "request_tuning",
+      "action": "Tune Kubernetes requests and rebalance workloads before shrinking the node pool.",
+      "rationale": "Average requested capacity materially exceeds observed P95 demand.",
+      "current_monthly_cost": 740.0,
+      "estimated_monthly_savings": 103.6,
+      "estimated_savings_pct": 14.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 28.68,
+        "memory_p95_pct": 40.17,
+        "network_p95_pct": 23.08,
+        "headroom_policy_pct": 25.0,
+        "request_cpu_avg_pct": 68.29,
+        "request_memory_avg_pct": 70.01
+      }
+    },
+    {
+      "recommendation_id": "rec-f2b9162eae",
+      "resource_id": "ecs-dev-sandbox-01",
+      "resource_name": "developer-sandbox-01",
+      "service": "ECS",
+      "recommendation_type": "schedule",
+      "action": "Apply an owner-approved weekday schedule with automatic morning start.",
+      "rationale": "Non-production resource runs continuously despite a business-hours workload profile.",
+      "current_monthly_cost": 210.0,
+      "estimated_monthly_savings": 100.8,
+      "estimated_savings_pct": 48.0,
+      "risk": "low",
+      "confidence": 0.9,
+      "evidence": {
+        "current_schedule": "24x7"
+      }
+    },
+    {
+      "recommendation_id": "rec-67e968df15",
+      "resource_id": "cce-dev-node-01",
+      "resource_name": "cce-dev-node-01",
+      "service": "CCE_NODE",
+      "recommendation_type": "rightsize",
+      "action": "Evaluate a 4-vCPU target flavor with 25% capacity headroom.",
+      "rationale": "P95 CPU and memory remain below rightsizing thresholds across the observation window.",
+      "current_monthly_cost": 330.0,
+      "estimated_monthly_savings": 92.4,
+      "estimated_savings_pct": 28.0,
+      "risk": "low",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 19.89,
+        "memory_p95_pct": 29.83,
+        "network_p95_pct": 14.46,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-65d58be51f",
+      "resource_id": "ecs-qa-legacy-01",
+      "resource_name": "qa-legacy-runner",
+      "service": "ECS",
+      "recommendation_type": "schedule",
+      "action": "Apply an owner-approved weekday schedule with automatic morning start.",
+      "rationale": "Non-production resource runs continuously despite a business-hours workload profile.",
+      "current_monthly_cost": 185.0,
+      "estimated_monthly_savings": 88.8,
+      "estimated_savings_pct": 48.0,
+      "risk": "low",
+      "confidence": 0.9,
+      "evidence": {
+        "current_schedule": "24x7"
+      }
+    },
+    {
+      "recommendation_id": "rec-6a7de8a8f5",
+      "resource_id": "evs-orphan-001",
+      "resource_name": "detached-migration-volume",
+      "service": "EVS",
+      "recommendation_type": "idle_resource",
+      "action": "Snapshot if required, then release the unattached resource.",
+      "rationale": "Inventory state indicates that the resource is not serving an active workload.",
+      "current_monthly_cost": 96.0,
+      "estimated_monthly_savings": 86.4,
+      "estimated_savings_pct": 90.0,
+      "risk": "low",
+      "confidence": 0.98,
+      "evidence": {
+        "attached": false,
+        "status": "available"
+      }
+    },
+    {
+      "recommendation_id": "rec-33697a093e",
+      "resource_id": "ecs-ml-prod-01",
+      "resource_name": "insights-feature-service",
+      "service": "ECS",
+      "recommendation_type": "commitment",
+      "action": "Compare a one-year commitment or savings plan against the validated baseline.",
+      "rationale": "Stable production utilization makes the pay-per-use baseline a commitment candidate.",
+      "current_monthly_cost": 460.0,
+      "estimated_monthly_savings": 82.8,
+      "estimated_savings_pct": 18.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 50.7,
+        "memory_p95_pct": 63.54,
+        "network_p95_pct": 40.61,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-306ffa13ee",
+      "resource_id": "elb-legacy-001",
+      "resource_name": "legacy-internal-elb",
+      "service": "ELB",
+      "recommendation_type": "idle_resource",
+      "action": "Snapshot if required, then release the unattached resource.",
+      "rationale": "Inventory state indicates that the resource is not serving an active workload.",
+      "current_monthly_cost": 82.0,
+      "estimated_monthly_savings": 73.8,
+      "estimated_savings_pct": 90.0,
+      "risk": "low",
+      "confidence": 0.98,
+      "evidence": {
+        "attached": false,
+        "status": "idle"
+      }
+    },
+    {
+      "recommendation_id": "rec-1067027d72",
+      "resource_id": "obs-platform-logs",
+      "resource_name": "central-platform-logs",
+      "service": "OBS",
+      "recommendation_type": "storage_lifecycle",
+      "action": "Apply age-based OBS lifecycle transitions and expiration rules.",
+      "rationale": "Large object storage footprint is eligible for tiering after access-pattern validation.",
+      "current_monthly_cost": 275.0,
+      "estimated_monthly_savings": 60.5,
+      "estimated_savings_pct": 22.0,
+      "risk": "low",
+      "confidence": 0.82,
+      "evidence": {
+        "storage_gb": 4200.0
+      }
+    },
+    {
+      "recommendation_id": "rec-e190fff445",
+      "resource_id": "ecs-qa-legacy-01",
+      "resource_name": "qa-legacy-runner",
+      "service": "ECS",
+      "recommendation_type": "rightsize",
+      "action": "Evaluate a 2-vCPU target flavor with 25% capacity headroom.",
+      "rationale": "P95 CPU and memory remain below rightsizing thresholds across the observation window.",
+      "current_monthly_cost": 185.0,
+      "estimated_monthly_savings": 51.8,
+      "estimated_savings_pct": 28.0,
+      "risk": "low",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 16.89,
+        "memory_p95_pct": 27.71,
+        "network_p95_pct": 11.53,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-0b7265b893",
+      "resource_id": "cce-dev-node-01",
+      "resource_name": "cce-dev-node-01",
+      "service": "CCE_NODE",
+      "recommendation_type": "request_tuning",
+      "action": "Tune Kubernetes requests and rebalance workloads before shrinking the node pool.",
+      "rationale": "Average requested capacity materially exceeds observed P95 demand.",
+      "current_monthly_cost": 330.0,
+      "estimated_monthly_savings": 46.2,
+      "estimated_savings_pct": 14.0,
+      "risk": "medium",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 19.89,
+        "memory_p95_pct": 29.83,
+        "network_p95_pct": 14.46,
+        "headroom_policy_pct": 25.0,
+        "request_cpu_avg_pct": 56.65,
+        "request_memory_avg_pct": 58.47
+      }
+    },
+    {
+      "recommendation_id": "rec-dfaf40d5df",
+      "resource_id": "ecs-unallocated-01",
+      "resource_name": "temporary-integration-host",
+      "service": "ECS",
+      "recommendation_type": "rightsize",
+      "action": "Evaluate a 2-vCPU target flavor with 25% capacity headroom.",
+      "rationale": "P95 CPU and memory remain below rightsizing thresholds across the observation window.",
+      "current_monthly_cost": 145.0,
+      "estimated_monthly_savings": 40.6,
+      "estimated_savings_pct": 28.0,
+      "risk": "low",
+      "confidence": 0.95,
+      "evidence": {
+        "observation_days": 30,
+        "cpu_p95_pct": 29.1,
+        "memory_p95_pct": 42.27,
+        "network_p95_pct": 23.12,
+        "headroom_policy_pct": 25.0
+      }
+    },
+    {
+      "recommendation_id": "rec-00b3233ddc",
+      "resource_id": "eip-unbound-001",
+      "resource_name": "legacy-public-ip",
+      "service": "EIP",
+      "recommendation_type": "idle_resource",
+      "action": "Snapshot if required, then release the unattached resource.",
+      "rationale": "Inventory state indicates that the resource is not serving an active workload.",
+      "current_monthly_cost": 38.0,
+      "estimated_monthly_savings": 34.2,
+      "estimated_savings_pct": 90.0,
+      "risk": "low",
+      "confidence": 0.98,
+      "evidence": {
+        "attached": false,
+        "status": "unbound"
+      }
+    },
+    {
+      "recommendation_id": "rec-d461335cd6",
+      "resource_id": "ecs-unallocated-01",
+      "resource_name": "temporary-integration-host",
+      "service": "ECS",
+      "recommendation_type": "tagging",
+      "action": "Add required cost allocation tags: owner, cost-center, environment, product.",
+      "rationale": "Incomplete ownership metadata prevents reliable showback and budget attribution.",
+      "current_monthly_cost": 145.0,
+      "estimated_monthly_savings": 0.0,
+      "estimated_savings_pct": 0.0,
+      "risk": "low",
+      "confidence": 0.99,
+      "evidence": {
+        "missing_tags": [
+          "owner",
+          "cost-center",
+          "environment",
+          "product"
+        ]
+      }
+    }
+  ],
+  "anomalies": [
+    {
+      "resource_id": "ecs-ml-prod-01",
+      "anomaly_date": "2026-06-21",
+      "actual_cost": 32.99,
+      "expected_cost": 17.05,
+      "deviation_pct": 93.55,
+      "score": 18.71,
+      "severity": "high"
+    },
+    {
+      "resource_id": "cce-prod-node-b",
+      "anomaly_date": "2026-05-18",
+      "actual_cost": 69.21,
+      "expected_cost": 25.48,
+      "deviation_pct": 171.68,
+      "score": 34.34,
+      "severity": "critical"
+    }
+  ],
+  "forecast": [
+    {
+      "period": "2026-07",
+      "predicted_cost": 6240.8,
+      "lower_bound": 5951.98,
+      "upper_bound": 6529.62
+    },
+    {
+      "period": "2026-08",
+      "predicted_cost": 6346.65,
+      "lower_bound": 5938.19,
+      "upper_bound": 6755.1
+    },
+    {
+      "period": "2026-09",
+      "predicted_cost": 6452.5,
+      "lower_bound": 5952.25,
+      "upper_bound": 6952.75
+    }
+  ],
+  "budgets": [
+    {
+      "name": "Non-Production",
+      "scope_type": "environment",
+      "scope_value": "development",
+      "monthly_limit": 550.0,
+      "month_to_date_cost": 732.83,
+      "forecast_cost": 745.67,
+      "utilization_pct": 133.24,
+      "forecast_utilization_pct": 135.58,
+      "status": "breached"
+    },
+    {
+      "name": "Cloud Portfolio Monthly",
+      "scope_type": "all",
+      "scope_value": "*",
+      "monthly_limit": 5800.0,
+      "month_to_date_cost": 6133.36,
+      "forecast_cost": 6240.8,
+      "utilization_pct": 105.75,
+      "forecast_utilization_pct": 107.6,
+      "status": "breached"
+    },
+    {
+      "name": "Commerce Product",
+      "scope_type": "product",
+      "scope_value": "Commerce",
+      "monthly_limit": 3800.0,
+      "month_to_date_cost": 3946.84,
+      "forecast_cost": 4015.97,
+      "utilization_pct": 103.86,
+      "forecast_utilization_pct": 105.68,
+      "status": "breached"
+    },
+    {
+      "name": "Insights Product",
+      "scope_type": "product",
+      "scope_value": "Insights",
+      "monthly_limit": 1350.0,
+      "month_to_date_cost": 1065.54,
+      "forecast_cost": 1084.2,
+      "utilization_pct": 78.93,
+      "forecast_utilization_pct": 80.31,
+      "status": "healthy"
+    }
+  ],
+  "allocation": {
+    "service": {
+      "ECS": 2130.0,
+      "CCE_NODE": 1810.0,
+      "RDS": 1210.0,
+      "OBS": 275.0,
+      "EVS": 96.0,
+      "ELB": 82.0,
+      "EIP": 38.0
+    },
+    "enterprise_project": {
+      "ep-commerce": 3630.0,
+      "ep-shared": 1031.0,
+      "ep-data": 980.0
+    },
+    "environment": {
+      "production": 4555.0,
+      "development": 674.0,
+      "qa": 267.0,
+      "unallocated": 145.0
+    },
+    "cost_center": {
+      "CC-100": 2940.0,
+      "CC-200": 1670.0,
+      "CC-300": 886.0,
+      "unallocated": 145.0
+    },
+    "product": {
+      "Commerce": 3630.0,
+      "Insights": 980.0,
+      "Shared": 886.0,
+      "unallocated": 145.0
+    }
+  }
+}

@@ -1,0 +1,16 @@
+resource_id,name,service,region,enterprise_project,environment,owner,cost_center,product,monthly_cost,pricing_mode,vcpu,memory_gb,storage_gb,status,attached,schedule,criticality,tags_json
+ecs-prod-web-01,commerce-web-prod-01,ECS,eu-west-101,ep-commerce,production,platform-team,CC-100,Commerce,620,pay_per_use,8,32,160,active,true,24x7,high,"{""managed-by"":""terraform""}"
+ecs-prod-web-02,commerce-web-prod-02,ECS,eu-west-101,ep-commerce,production,platform-team,CC-100,Commerce,510,yearly_monthly,8,32,120,active,true,24x7,high,"{""managed-by"":""terraform""}"
+cce-prod-node-a,cce-commerce-prod-a,CCE_NODE,eu-west-101,ep-commerce,production,sre-team,CC-100,Commerce,740,yearly_monthly,16,64,200,active,true,24x7,high,"{""cluster"":""commerce-prod""}"
+cce-prod-node-b,cce-commerce-prod-b,CCE_NODE,eu-west-101,ep-commerce,production,sre-team,CC-100,Commerce,740,yearly_monthly,16,64,200,active,true,24x7,high,"{""cluster"":""commerce-prod""}"
+ecs-dev-sandbox-01,developer-sandbox-01,ECS,eu-west-101,ep-shared,development,engineering,CC-300,Shared,210,pay_per_use,4,16,100,active,true,24x7,low,{}
+ecs-qa-legacy-01,qa-legacy-runner,ECS,eu-west-101,ep-shared,qa,quality-team,CC-300,Shared,185,pay_per_use,4,16,80,active,true,24x7,low,"{""expires-on"":""2026-08-31""}"
+rds-orders-prod,orders-mysql-prod,RDS,eu-west-101,ep-commerce,production,data-platform,CC-200,Commerce,690,pay_per_use,8,32,500,active,true,24x7,mission-critical,"{""backup-policy"":""gold""}"
+rds-analytics-prod,analytics-postgres-prod,RDS,eu-west-101,ep-data,production,analytics-team,CC-200,Insights,520,yearly_monthly,8,32,700,active,true,24x7,standard,"{""backup-policy"":""silver""}"
+evs-orphan-001,detached-migration-volume,EVS,eu-west-101,ep-shared,development,platform-team,CC-300,Shared,96,pay_per_use,0,0,1000,available,false,24x7,low,"{""created-by"":""migration""}"
+eip-unbound-001,legacy-public-ip,EIP,eu-west-101,ep-shared,development,network-team,CC-300,Shared,38,pay_per_use,0,0,0,unbound,false,24x7,low,{}
+obs-platform-logs,central-platform-logs,OBS,eu-west-101,ep-shared,production,sre-team,CC-300,Shared,275,pay_per_use,0,0,4200,active,true,24x7,standard,"{""retention"":""365d""}"
+elb-legacy-001,legacy-internal-elb,ELB,eu-west-101,ep-shared,qa,network-team,CC-300,Shared,82,pay_per_use,0,0,0,idle,false,24x7,low,{}
+ecs-ml-prod-01,insights-feature-service,ECS,eu-west-101,ep-data,production,ml-platform,CC-200,Insights,460,pay_per_use,8,32,200,active,true,24x7,high,"{""model"":""recommendation-v3""}"
+cce-dev-node-01,cce-dev-node-01,CCE_NODE,eu-west-101,ep-commerce,development,sre-team,CC-100,Commerce,330,pay_per_use,8,32,100,active,true,24x7,low,"{""cluster"":""commerce-dev""}"
+ecs-unallocated-01,temporary-integration-host,ECS,eu-west-101,ep-shared,,,,,145,pay_per_use,4,8,60,active,true,24x7,standard,{}

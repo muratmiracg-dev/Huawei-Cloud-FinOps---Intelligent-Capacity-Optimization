@@ -1,0 +1,53 @@
+groups:
+  - name: finops-governance
+    interval: 1m
+    rules:
+      - alert: FinOpsApiDown
+        expr: up{job="finops-optimizer"} == 0
+        for: 5m
+        labels:
+          severity: critical
+          owner: platform-team
+        annotations:
+          summary: FinOps optimizer API is unavailable
+          runbook_url: docs/runbooks/platform-unavailable.md
+
+      - alert: AllocationCoverageBelowTarget
+        expr: finops_allocation_coverage_ratio < 0.95
+        for: 30m
+        labels:
+          severity: warning
+          owner: finops-team
+        annotations:
+          summary: Cost allocation coverage is below 95%
+          runbook_url: docs/runbooks/allocation-gap.md
+
+      - alert: HighSavingsOpportunity
+        expr: finops_savings_opportunity_ratio > 0.15
+        for: 1h
+        labels:
+          severity: info
+          owner: finops-team
+        annotations:
+          summary: More than 15% of current cost is optimizable
+          runbook_url: docs/runbooks/recommendation-review.md
+
+      - alert: CapacityRiskRecommendation
+        expr: finops_high_risk_recommendations_total > 0
+        for: 10m
+        labels:
+          severity: warning
+          owner: sre-team
+        annotations:
+          summary: High-risk capacity recommendation requires review
+          runbook_url: docs/runbooks/capacity-pressure.md
+
+      - alert: CostAnomalyDetected
+        expr: finops_cost_anomalies_total > 0
+        for: 5m
+        labels:
+          severity: warning
+          owner: finops-team
+        annotations:
+          summary: Cost anomaly evidence is present
+          runbook_url: docs/runbooks/cost-anomaly.md

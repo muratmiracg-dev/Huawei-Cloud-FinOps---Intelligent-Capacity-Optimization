@@ -1,0 +1,1 @@
+Explainable Huawei Cloud FinOps platform for cost allocation, budgets, anomaly detection, forecasting, rightsizing, CCE capacity safety, and governed optimization.

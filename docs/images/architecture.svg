@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Huawei Cloud FinOps platform architecture</title>
+  <desc id="desc">Data sources flow through normalization, analytics, and capacity optimization into governed actions, dashboards, alerts, and evidence.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="1" stop-color="#101b2d"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff5b5b"/>
+      <stop offset="1" stop-color="#c7000b"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5eead4"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#000" flood-opacity=".28"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#718096"/>
+    </marker>
+    <style>
+      .eyebrow { font: 700 16px Inter,Segoe UI,sans-serif; letter-spacing: 2.5px; fill: #ff7178; }
+      .title { font: 800 42px Inter,Segoe UI,sans-serif; fill: #f8fafc; }
+      .subtitle { font: 400 19px Inter,Segoe UI,sans-serif; fill: #94a3b8; }
+      .section { font: 700 18px Inter,Segoe UI,sans-serif; fill: #e2e8f0; letter-spacing: 1px; }
+      .cardTitle { font: 700 19px Inter,Segoe UI,sans-serif; fill: #f8fafc; }
+      .cardText { font: 400 15px Inter,Segoe UI,sans-serif; fill: #aebbd0; }
+      .small { font: 600 13px Inter,Segoe UI,sans-serif; fill: #8ea0ba; }
+      .metric { font: 800 24px Inter,Segoe UI,sans-serif; fill: #5eead4; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" rx="28" fill="url(#bg)"/>
+  <circle cx="1450" cy="65" r="250" fill="#c7000b" opacity=".06"/>
+  <circle cx="210" cy="810" r="260" fill="#2dd4bf" opacity=".05"/>
+
+  <text x="76" y="72" class="eyebrow">REFERENCE ARCHITECTURE</text>
+  <text x="76" y="123" class="title">Huawei Cloud FinOps Decision Platform</text>
+  <text x="76" y="158" class="subtitle">Cost visibility, explainable optimization, and capacity safety in one governed feedback loop</text>
+
+  <text x="82" y="222" class="section">01  SIGNALS</text>
+  <text x="440" y="222" class="section">02  DECISION ENGINE</text>
+  <text x="1125" y="222" class="section">03  CONTROL &amp; ACTION</text>
+
+  <g filter="url(#shadow)">
+    <rect x="76" y="248" width="292" height="104" rx="18" fill="#111f33" stroke="#25344d"/>
+    <rect x="76" y="370" width="292" height="104" rx="18" fill="#111f33" stroke="#25344d"/>
+    <rect x="76" y="492" width="292" height="104" rx="18" fill="#111f33" stroke="#25344d"/>
+    <rect x="76" y="614" width="292" height="104" rx="18" fill="#111f33" stroke="#25344d"/>
+  </g>
+  <circle cx="112" cy="287" r="19" fill="url(#red)"/>
+  <text x="144" y="286" class="cardTitle">Cost Center &amp; Billing</text>
+  <text x="144" y="313" class="cardText">Original + amortized costs</text>
+  <text x="144" y="334" class="small">Budget · tags · API</text>
+
+  <circle cx="112" cy="409" r="19" fill="#f59e0b"/>
+  <text x="144" y="408" class="cardTitle">OBS Cost Exports</text>
+  <text x="144" y="435" class="cardText">Durable bill detail history</text>
+  <text x="144" y="456" class="small">Lifecycle · audit · replay</text>
+
+  <circle cx="112" cy="531" r="19" fill="#38bdf8"/>
+  <text x="144" y="530" class="cardTitle">AOM &amp; Cloud Eye</text>
+  <text x="144" y="557" class="cardText">CPU · memory · network</text>
+  <text x="144" y="578" class="small">Metrics · alarms · evidence</text>
+
+  <circle cx="112" cy="653" r="19" fill="url(#teal)"/>
+  <text x="144" y="652" class="cardTitle">CCE / ECS Inventory</text>
+  <text x="144" y="679" class="cardText">Nodes · workloads · resources</text>
+  <text x="144" y="700" class="small">Ownership · status · topology</text>
+
+  <path d="M368 300 C408 300 401 395 440 395" fill="none" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M368 422 C410 422 404 395 440 395" fill="none" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M368 544 C410 544 404 567 440 567" fill="none" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M368 666 C410 666 404 567 440 567" fill="none" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="440" y="248" width="610" height="102" rx="20" fill="#101f34" stroke="#35445d"/>
+    <rect x="440" y="368" width="292" height="148" rx="20" fill="#101f34" stroke="#35445d"/>
+    <rect x="758" y="368" width="292" height="148" rx="20" fill="#101f34" stroke="#35445d"/>
+    <rect x="440" y="534" width="292" height="184" rx="20" fill="#101f34" stroke="#35445d"/>
+    <rect x="758" y="534" width="292" height="184" rx="20" fill="#101f34" stroke="#35445d"/>
+  </g>
+
+  <rect x="468" y="274" width="72" height="50" rx="12" fill="#c7000b" opacity=".95"/>
+  <text x="565" y="292" class="cardTitle">Canonical ingestion &amp; normalization</text>
+  <text x="565" y="320" class="cardText">Stable cost · utilization · resource · budget contracts</text>
+
+  <text x="470" y="408" class="cardTitle">Allocation &amp; Governance</text>
+  <text x="470" y="438" class="cardText">Cost-center and owner coverage</text>
+  <text x="470" y="462" class="cardText">Actual + forecast budget status</text>
+  <text x="470" y="486" class="cardText">Showback by product and project</text>
+
+  <text x="788" y="408" class="cardTitle">Cost Intelligence</text>
+  <text x="788" y="438" class="cardText">Median / MAD anomalies</text>
+  <text x="788" y="462" class="cardText">Trend forecast + uncertainty</text>
+  <text x="788" y="486" class="cardText">Original / amortized analysis</text>
+
+  <text x="470" y="574" class="cardTitle">Capacity Optimization</text>
+  <text x="470" y="604" class="cardText">P95 rightsizing + headroom</text>
+  <text x="470" y="628" class="cardText">CCE request efficiency</text>
+  <text x="470" y="652" class="cardText">Saturation and SLO risk</text>
+  <text x="470" y="692" class="metric">21 decisions</text>
+
+  <text x="788" y="574" class="cardTitle">Savings Portfolio</text>
+  <text x="788" y="604" class="cardText">Idle · schedule · lifecycle</text>
+  <text x="788" y="628" class="cardText">Rightsize · commitment review</text>
+  <text x="788" y="652" class="cardText">Non-overlapping estimate</text>
+  <text x="788" y="692" class="metric">$18.2K annual</text>
+
+  <path d="M732 442 L758 442" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M586 516 L586 534" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M904 516 L904 534" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <path d="M1050 405 C1090 405 1080 322 1120 322" fill="none" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1050 610 C1090 610 1080 556 1120 556" fill="none" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="1120" y="248" width="404" height="148" rx="20" fill="#121f33" stroke="#374761"/>
+    <rect x="1120" y="414" width="404" height="148" rx="20" fill="#121f33" stroke="#374761"/>
+    <rect x="1120" y="580" width="404" height="138" rx="20" fill="#121f33" stroke="#374761"/>
+  </g>
+
+  <text x="1152" y="288" class="cardTitle">Control Tower</text>
+  <text x="1152" y="318" class="cardText">FastAPI · Grafana · Prometheus</text>
+  <text x="1152" y="342" class="cardText">Budgets · anomalies · recommendation queue</text>
+  <text x="1152" y="372" class="small">Evidence available to finance, product, and SRE</text>
+
+  <text x="1152" y="454" class="cardTitle">Policy &amp; Approval</text>
+  <text x="1152" y="484" class="cardText">OPA cost labels · request limits</text>
+  <text x="1152" y="508" class="cardText">Owner approval · exception expiry</text>
+  <text x="1152" y="538" class="small">No autonomous destructive actions</text>
+
+  <text x="1152" y="620" class="cardTitle">Execution &amp; Feedback</text>
+  <text x="1152" y="650" class="cardText">Terraform · CCE autoscaling · OBS lifecycle</text>
+  <text x="1152" y="674" class="cardText">Measure realized savings and SLOs</text>
+  <text x="1152" y="700" class="small">Reversible action with audit evidence</text>
+
+  <path d="M1320 396 L1320 414" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1320 562 L1320 580" stroke="#718096" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="76" y="768" width="1448" height="72" rx="20" fill="#0b1628" stroke="#25344d"/>
+  <text x="108" y="799" class="section">PLATFORM FOUNDATION</text>
+  <text x="108" y="824" class="small">GitHub Actions + CodeQL + Trivy</text>
+  <text x="455" y="812" class="cardText">Terraform  ·  Huawei Cloud CCE  ·  OBS  ·  SMN</text>
+  <text x="920" y="812" class="cardText">Kustomize  ·  Helm  ·  Pod Security  ·  NetworkPolicy</text>
+</svg>

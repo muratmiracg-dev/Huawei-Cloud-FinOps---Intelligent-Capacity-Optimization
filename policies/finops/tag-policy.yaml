@@ -1,0 +1,26 @@
+apiVersion: finops.huaweicloud.com/v1
+kind: CostAllocationPolicy
+metadata:
+  name: mandatory-cloud-tags
+spec:
+  requiredTags:
+    - key: owner
+      description: Team accountable for technical action
+      pattern: "^[a-z0-9-]{3,40}$"
+    - key: cost-center
+      description: Finance allocation code
+      pattern: "^CC-[0-9]{3,6}$"
+    - key: environment
+      description: Lifecycle environment
+      allowedValues: [development, qa, staging, production]
+    - key: product
+      description: Business product or shared platform
+      pattern: "^[A-Za-z0-9-]{2,40}$"
+    - key: managed-by
+      description: Provisioning authority
+      allowedValues: [terraform, codearts, manual-exception]
+  enforcement:
+    admission: deny
+    exceptionTtlDays: 30
+    existingResources: report
+  allocationTargetPercent: 95

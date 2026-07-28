@@ -1,0 +1,8 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: finops-optimizer
+  namespace: finops-system
+spec:
+  minReplicas: 1
+  maxReplicas: 3

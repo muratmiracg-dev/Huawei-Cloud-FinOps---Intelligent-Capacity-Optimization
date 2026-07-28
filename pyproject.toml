@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "huawei-cloud-finops-optimizer"
+version = "1.0.0"
+description = "Explainable Huawei Cloud FinOps analytics and intelligent capacity optimization."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Murat Miraç Gedik" }]
+keywords = [
+  "finops",
+  "huawei-cloud",
+  "cost-optimization",
+  "capacity-planning",
+  "kubernetes",
+  "cce",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: System :: Monitoring",
+]
+dependencies = [
+  "fastapi>=0.115,<1.0",
+  "uvicorn[standard]>=0.34,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "coverage[toml]>=7.6,<8",
+  "httpx>=0.28,<1",
+  "PyYAML>=6,<7",
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.11,<1",
+]
+
+[project.scripts]
+finops = "finops.cli:main"
+
+[project.urls]
+Repository = "https://github.com/muratmiracg-dev/Huawei-Cloud-FinOps---Intelligent-Capacity-Optimization"
+Documentation = "https://github.com/muratmiracg-dev/Huawei-Cloud-FinOps---Intelligent-Capacity-Optimization/tree/main/docs"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+exclude = ["tmp", "presentation"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "C4", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+"scripts/build_executive_pdf.py" = ["RUF001"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+branch = true
+source = ["finops"]
+omit = ["src/finops/api.py"]
+
+[tool.coverage.report]
+fail_under = 90
+show_missing = true
+skip_covered = true
+exclude_also = [
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+]

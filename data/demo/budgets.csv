@@ -1,0 +1,5 @@
+name,scope_type,scope_value,monthly_limit,actual_alert_pct,forecast_alert_pct,currency
+Cloud Portfolio Monthly,all,*,5800,85,100,USD
+Commerce Product,product,Commerce,3800,85,100,USD
+Insights Product,product,Insights,1350,85,100,USD
+Non-Production,environment,development,550,80,100,USD

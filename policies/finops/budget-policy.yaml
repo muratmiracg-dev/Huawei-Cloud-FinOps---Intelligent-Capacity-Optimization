@@ -1,0 +1,19 @@
+apiVersion: finops.huaweicloud.com/v1
+kind: BudgetPolicy
+metadata:
+  name: portfolio-guardrails
+spec:
+  currency: USD
+  thresholds:
+    actualWarningPercent: 85
+    actualCriticalPercent: 100
+    forecastCriticalPercent: 100
+  routing:
+    ownerTag: owner
+    costCenterTag: cost-center
+    defaultTopic: finops-cost-alerts
+  changeGate:
+    maximumForecastIncreasePercent: 10
+    minimumAllocationCoveragePercent: 95
+    maximumUnreviewedHighRiskRecommendations: 2
+  evidenceRetentionDays: 400

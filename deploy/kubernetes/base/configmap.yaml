@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: finops-optimizer-config
+  namespace: finops-system
+data:
+  APP_ENV: production
+  LOG_LEVEL: INFO
+  FINOPS_DATA_DIR: /app/data/demo
+  DEFAULT_CURRENCY: USD
+  FORECAST_MONTHS: "3"
+  MINIMUM_SAVINGS_USD: "5"
+  CAPACITY_HEADROOM_PCT: "25"
