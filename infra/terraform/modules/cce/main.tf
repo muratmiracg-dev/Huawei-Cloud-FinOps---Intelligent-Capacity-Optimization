@@ -19,14 +19,14 @@ resource "huaweicloud_vpc_subnet" "this" {
 }
 
 resource "huaweicloud_cce_cluster" "this" {
-  name                  = "${var.name}-${var.environment}"
-  flavor_id             = "cce.s2.small"
-  vpc_id                = huaweicloud_vpc.this.id
-  subnet_id             = huaweicloud_vpc_subnet.this.id
+  name                   = "${var.name}-${var.environment}"
+  flavor_id              = "cce.s2.small"
+  vpc_id                 = huaweicloud_vpc.this.id
+  subnet_id              = huaweicloud_vpc_subnet.this.id
   container_network_type = "eni"
-  authentication_mode   = "rbac"
-  enterprise_project_id = var.enterprise_project_id
-  tags                  = var.tags
+  authentication_mode    = "rbac"
+  enterprise_project_id  = var.enterprise_project_id
+  tags                   = var.tags
 }
 
 resource "huaweicloud_cce_node_pool" "finops" {
@@ -37,13 +37,12 @@ resource "huaweicloud_cce_node_pool" "finops" {
   initial_node_count = var.node_pool_min
   availability_zone  = data.huaweicloud_availability_zones.available.names[0]
   key_pair           = var.key_pair_name
-  billing_mode       = 0
 
-  scall_enable            = true
-  min_node_count          = var.node_pool_min
-  max_node_count          = var.node_pool_max
+  scall_enable             = true
+  min_node_count           = var.node_pool_min
+  max_node_count           = var.node_pool_max
   scale_down_cooldown_time = 10
-  priority                = 1
+  priority                 = 1
 
   root_volume {
     size       = 40
