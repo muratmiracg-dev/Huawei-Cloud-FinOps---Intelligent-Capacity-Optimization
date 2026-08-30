@@ -37,7 +37,6 @@ resource "huaweicloud_cce_node_pool" "finops" {
   initial_node_count = var.node_pool_min
   availability_zone  = data.huaweicloud_availability_zones.available.names[0]
   key_pair           = var.key_pair_name
-  billing_mode       = 0
 
   scall_enable             = true
   min_node_count           = var.node_pool_min
