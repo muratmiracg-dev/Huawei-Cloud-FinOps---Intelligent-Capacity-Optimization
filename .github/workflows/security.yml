@@ -7,6 +7,7 @@ on:
     branches: [main]
   schedule:
     - cron: "41 4 * * 3"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,7 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@v7
       - uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
@@ -28,7 +29,7 @@ jobs:
           exit-code: "1"
           format: sarif
           output: trivy-results.sarif
-      - uses: github/codeql-action/upload-sarif@v3.37.1
+      - uses: github/codeql-action/upload-sarif@v4
         if: always() && hashFiles('trivy-results.sarif') != ''
         with:
           sarif_file: trivy-results.sarif
