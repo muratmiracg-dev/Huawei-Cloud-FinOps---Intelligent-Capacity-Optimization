@@ -25,7 +25,7 @@ Grain: one row per billable or capacity-relevant resource.
 | `pricing_mode` | enum | Yes | pay_per_use, yearly_monthly, savings_plan |
 | `vcpu`, `memory_gb`, `storage_gb` | number | By service | Capacity |
 | `status` | string | Yes | active, idle, available, unbound |
-| `attached` | boolean | Yes | Dependency state |
+| `attached` | boolean | Yes | Dependency state; accepted values are `true`/`false`, `yes`/`no`, `y`/`n`, or `1`/`0` (case-insensitive) |
 | `schedule` | string | Yes | 24x7 or approved schedule |
 | `criticality` | string | Yes | low, standard, high, mission-critical |
 | `tags_json` | JSON object | Yes | Additional tag evidence |
@@ -97,6 +97,8 @@ can evolve.
 - CSV headers are read by name, not position.
 - Dates and timestamps must be ISO-compatible.
 - Numeric values must parse without implicit locale conversion.
+- Boolean values must use an explicit accepted token; missing or ambiguous values
+  fail ingestion instead of being interpreted as detached resources.
 - Unknown services map to `OTHER` instead of being discarded.
 - Cost records remain immutable after acceptance.
 - Collection freshness must be tracked externally.
