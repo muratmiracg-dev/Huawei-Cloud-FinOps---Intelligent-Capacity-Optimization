@@ -18,7 +18,15 @@ from finops.models import (
 
 
 def _bool(value: str) -> bool:
-    return value.strip().lower() in {"1", "true", "yes", "y"}
+    normalized = value.strip().lower()
+    if normalized in {"1", "true", "yes", "y"}:
+        return True
+    if normalized in {"0", "false", "no", "n"}:
+        return False
+    raise ValueError(
+        "Invalid boolean value for attached: "
+        f"{value!r}; expected true/false, yes/no, y/n, or 1/0"
+    )
 
 
 class CsvRepository:
