@@ -4,7 +4,7 @@ import unittest
 from datetime import date
 from pathlib import Path
 
-from finops.adapters.csv_repository import CsvRepository
+from finops.adapters.csv_repository import CsvRepository, _bool
 from finops.adapters.huawei_billing import normalize_billing_records
 from finops.engine import FinOpsEngine
 from finops.telemetry import render_metrics
@@ -21,6 +21,22 @@ class AdapterAndTelemetryTests(unittest.TestCase):
         self.assertGreater(len(repo.costs()), 1000)
         self.assertGreater(len(repo.utilization()), 1000)
         self.assertGreater(len(repo.budgets()), 1)
+
+    def test_csv_boolean_parser_accepts_documented_values(self):
+        for value in ("true", "TRUE", " yes ", "y", "1"):
+            with self.subTest(value=value):
+                self.assertTrue(_bool(value))
+        for value in ("false", "FALSE", " no ", "n", "0"):
+            with self.subTest(value=value):
+                self.assertFalse(_bool(value))
+
+    def test_csv_boolean_parser_rejects_ambiguous_values(self):
+        for value in ("", "2", "unknown", "tru"):
+            with (
+                self.subTest(value=value),
+                self.assertRaisesRegex(ValueError, "Invalid boolean value"),
+            ):
+                _bool(value)
 
     def test_huawei_export_normalization(self):
         records = normalize_billing_records(
