@@ -293,3 +293,7 @@ Statistics · Data Analytics · Cloud DevOps · FinOps · Huawei Cloud
 This portfolio project extends hands-on experience from the HUAWEI Student
 Developers Türkiye Cloud DevOps program into cost governance, cloud economics,
 observability, and capacity engineering.
+
+### Input validation contract
+
+Percentile quantiles must be finite, including empty inputs. Non-finite observations are rejected. Valid interpolation and the existing empty-series result of zero are preserved.

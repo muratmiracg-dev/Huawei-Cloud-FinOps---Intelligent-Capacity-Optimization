@@ -7,6 +7,10 @@ from collections.abc import Sequence
 
 
 def percentile(values: Sequence[float], quantile: float) -> float:
+    if isinstance(quantile, bool) or not math.isfinite(quantile):
+        raise ValueError("quantile must be finite")
+    if any(not math.isfinite(value) for value in values):
+        raise ValueError("percentile values must be finite")
     if not values:
         return 0.0
     ordered = sorted(values)
