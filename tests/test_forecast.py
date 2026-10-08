@@ -57,6 +57,9 @@ class ForecastTests(unittest.TestCase):
     def test_forecast_rejects_invalid_horizon(self):
         with self.assertRaises(ValueError):
             forecast_monthly_cost([monthly_record(1, 100)], 0)
+        for invalid in (True, 2.5, "3"):
+            with self.subTest(invalid=invalid), self.assertRaises(TypeError):
+                forecast_monthly_cost([monthly_record(1, 100)], invalid)
 
     def test_latest_month_cost(self):
         self.assertEqual(
