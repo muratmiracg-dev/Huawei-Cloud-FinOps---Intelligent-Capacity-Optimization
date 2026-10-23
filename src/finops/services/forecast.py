@@ -41,9 +41,7 @@ def forecast_monthly_cost(
     values = [value for _, value in history]
     periods = [date.fromisoformat(f"{period}-01") for period, _ in history]
     origin = periods[0].year * 12 + periods[0].month - 1
-    x_values = [
-        period.year * 12 + period.month - 1 - origin for period in periods
-    ]
+    x_values = [period.year * 12 + period.month - 1 - origin for period in periods]
     if len(values) == 1:
         intercept, slope = values[0], 0.0
         residual_stddev = values[0] * 0.1
