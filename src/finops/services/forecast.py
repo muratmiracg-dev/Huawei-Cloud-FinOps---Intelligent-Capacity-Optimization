@@ -39,11 +39,13 @@ def forecast_monthly_cost(
     if not history:
         return []
     values = [value for _, value in history]
+    periods = [date.fromisoformat(f"{period}-01") for period, _ in history]
+    origin = periods[0].year * 12 + periods[0].month - 1
+    x_values = [period.year * 12 + period.month - 1 - origin for period in periods]
     if len(values) == 1:
         intercept, slope = values[0], 0.0
         residual_stddev = values[0] * 0.1
     else:
-        x_values = list(range(len(values)))
         x_mean = sum(x_values) / len(x_values)
         y_mean = sum(values) / len(values)
         denominator = sum((x - x_mean) ** 2 for x in x_values)
@@ -63,11 +65,11 @@ def forecast_monthly_cost(
         )
         residual_stddev = max(residual_stddev, y_mean * 0.03)
 
-    latest = date.fromisoformat(f"{history[-1][0]}-01")
+    latest = periods[-1]
     output: list[ForecastPoint] = []
     for offset in range(1, months + 1):
         target_year, target_month = _next_month(latest.year, latest.month, offset)
-        x_value = len(values) - 1 + offset
+        x_value = x_values[-1] + offset
         prediction = max(0.0, intercept + slope * x_value)
         uncertainty = 1.64 * residual_stddev * (offset**0.5)
         output.append(

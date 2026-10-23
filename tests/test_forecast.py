@@ -43,6 +43,14 @@ class ForecastTests(unittest.TestCase):
         )
         self.assertAlmostEqual(forecast[0].predicted_cost, 160, places=2)
 
+    def test_forecast_uses_calendar_gaps_for_trend(self):
+        records = [monthly_record(1, 100), monthly_record(3, 140)]
+
+        forecast = forecast_monthly_cost(records, 1)
+
+        self.assertEqual(forecast[0].period, "2026-04")
+        self.assertAlmostEqual(forecast[0].predicted_cost, 160, places=2)
+
     def test_forecast_has_ordered_bounds(self):
         forecast = forecast_monthly_cost(
             [monthly_record(month, 100 + month * 3) for month in range(1, 5)],
