@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 from finops.models import Budget, BudgetStatus, CloudResource, CostRecord
-from finops.services.forecast import forecast_monthly_cost, latest_month_cost
+from finops.services.forecast import forecast_monthly_series, monthly_costs
 
 
 def _matches(resource: CloudResource, budget: Budget) -> bool:
@@ -36,26 +36,54 @@ def budget_coverage(
     return round(covered / total * 100, 2)
 
 
+def _scoped_costs(
+    resources: Sequence[CloudResource],
+    costs: Sequence[CostRecord],
+    budget: Budget,
+) -> list[CostRecord]:
+    """Cost records that belong to the budget's scope.
+
+    Scopes are defined on inventory attributes, so a record is in scope when its
+    resource matches. Records for resources missing from the inventory can only be
+    attributed to the portfolio-wide ``all`` scope.
+    """
+
+    if budget.scope_type == "all":
+        return list(costs)
+    in_scope = {
+        resource.resource_id for resource in resources if _matches(resource, budget)
+    }
+    return [record for record in costs if record.resource_id in in_scope]
+
+
 def evaluate_budgets(
     resources: Sequence[CloudResource],
     costs: Sequence[CostRecord],
     budgets: Sequence[Budget],
 ) -> list[BudgetStatus]:
-    latest_cost = latest_month_cost(costs)
-    total_baseline = sum(resource.monthly_cost for resource in resources)
-    forecast = forecast_monthly_cost(costs, 1)
-    total_forecast = forecast[0].predicted_cost if forecast else latest_cost
+    """Compare each scope's billed cost and next-month forecast with its limit.
+
+    Actual and forecast cost come from the scope's own billing records. Earlier
+    versions apportioned the portfolio total by each scope's share of inventory
+    ``monthly_cost``, which spread a spike in one product or environment across
+    every budget and could hide the breach in the scope that caused it.
+    """
+
+    portfolio_periods = [period for period, _ in monthly_costs(costs)]
 
     statuses: list[BudgetStatus] = []
     for budget in budgets:
-        scoped_cost = sum(
-            resource.monthly_cost
-            for resource in resources
-            if _matches(resource, budget)
-        )
-        share = scoped_cost / total_baseline if total_baseline else 0.0
-        actual = latest_cost * share
-        predicted = total_forecast * share
+        scoped = dict(monthly_costs(_scoped_costs(resources, costs, budget)))
+        # Align the scope's history to the portfolio calendar from its first billed
+        # month, so months without spend count as zero instead of being skipped.
+        history = [
+            (period, scoped.get(period, 0.0))
+            for period in portfolio_periods
+            if scoped and period >= min(scoped)
+        ]
+        actual = history[-1][1] if history else 0.0
+        forecast = forecast_monthly_series(history, 1)
+        predicted = forecast[0].predicted_cost if forecast else 0.0
         actual_pct = actual / budget.monthly_limit * 100 if budget.monthly_limit else 0
         forecast_pct = (
             predicted / budget.monthly_limit * 100 if budget.monthly_limit else 0

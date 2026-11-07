@@ -31,10 +31,10 @@ total.
 
 | Budget | Actual utilization | Forecast utilization | Status |
 |---|---:|---:|---|
-| Non-Production | 133.24% | 135.58% | Breached |
+| Non-Production | 133.66% | 135.89% | Breached |
 | Cloud Portfolio Monthly | 105.75% | 107.60% | Breached |
-| Commerce Product | 103.86% | 105.68% | Breached |
-| Insights Product | 78.93% | 80.31% | Healthy |
+| Commerce Product | 103.43% | 105.49% | Breached |
+| Insights Product | 79.94% | 80.85% | Healthy |
 
 The immediate portfolio priority is not a blanket cost reduction. It is a
 sequenced plan:
