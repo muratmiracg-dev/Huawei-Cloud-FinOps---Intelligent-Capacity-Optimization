@@ -481,10 +481,10 @@
       "scope_type": "environment",
       "scope_value": "development",
       "monthly_limit": 550.0,
-      "month_to_date_cost": 732.83,
-      "forecast_cost": 745.67,
-      "utilization_pct": 133.24,
-      "forecast_utilization_pct": 135.58,
+      "month_to_date_cost": 735.14,
+      "forecast_cost": 747.39,
+      "utilization_pct": 133.66,
+      "forecast_utilization_pct": 135.89,
       "status": "breached"
     },
     {
@@ -503,10 +503,10 @@
       "scope_type": "product",
       "scope_value": "Commerce",
       "monthly_limit": 3800.0,
-      "month_to_date_cost": 3946.84,
-      "forecast_cost": 4015.97,
-      "utilization_pct": 103.86,
-      "forecast_utilization_pct": 105.68,
+      "month_to_date_cost": 3930.21,
+      "forecast_cost": 4008.7,
+      "utilization_pct": 103.43,
+      "forecast_utilization_pct": 105.49,
       "status": "breached"
     },
     {
@@ -514,10 +514,10 @@
       "scope_type": "product",
       "scope_value": "Insights",
       "monthly_limit": 1350.0,
-      "month_to_date_cost": 1065.54,
-      "forecast_cost": 1084.2,
-      "utilization_pct": 78.93,
-      "forecast_utilization_pct": 80.31,
+      "month_to_date_cost": 1079.13,
+      "forecast_cost": 1091.46,
+      "utilization_pct": 79.94,
+      "forecast_utilization_pct": 80.85,
       "status": "healthy"
     }
   ],

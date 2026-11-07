@@ -31,11 +31,18 @@ def monthly_costs(records: Sequence[CostRecord]) -> list[tuple[str, float]]:
 def forecast_monthly_cost(
     records: Sequence[CostRecord], months: int = 3
 ) -> list[ForecastPoint]:
+    return forecast_monthly_series(monthly_costs(records), months)
+
+
+def forecast_monthly_series(
+    history: Sequence[tuple[str, float]], months: int = 3
+) -> list[ForecastPoint]:
+    """Forecast from ``(YYYY-MM, cost)`` pairs in ascending period order."""
+
     if type(months) is not int:
         raise TypeError("months must be an integer")
     if months < 1 or months > 18:
         raise ValueError("months must be between 1 and 18")
-    history = monthly_costs(records)
     if not history:
         return []
     values = [value for _, value in history]
