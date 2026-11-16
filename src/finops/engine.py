@@ -13,7 +13,7 @@ from finops.repository import FinOpsRepository
 from finops.services.allocation import allocation_by, allocation_coverage
 from finops.services.anomaly import detect_cost_anomalies
 from finops.services.budgets import budget_coverage, evaluate_budgets
-from finops.services.forecast import forecast_monthly_cost, latest_month_cost
+from finops.services.forecast import forecast_monthly_cost, latest_month_run_rate
 from finops.services.maturity import calculate_maturity_score
 from finops.services.optimization import (
     generate_recommendations,
@@ -63,7 +63,8 @@ class FinOpsEngine:
         budgets = self.repository.budgets()
         recommendations = self.recommendations()
         anomalies = self.anomalies()
-        current_cost = latest_month_cost(costs)
+        # Savings are full-month figures, so compare them with a full-month baseline.
+        current_cost = latest_month_run_rate(costs)
         savings = non_overlapping_savings(recommendations)
         allocation_pct = allocation_coverage(resources)
         budget_pct = budget_coverage(resources, budgets)
