@@ -70,12 +70,24 @@ def verify_required_files() -> None:
         fail(f"missing required files: {', '.join(missing)}")
 
 
+def _relative_parts(path: Path) -> tuple[str, ...]:
+    """Path parts below the repository root.
+
+    Exclusions must not look at the absolute path: a checkout under /tmp or a
+    dot-directory used to skip every file, so the secret scan and the JSON check
+    silently passed with nothing checked.
+    """
+
+    return path.relative_to(ROOT).parts
+
+
 def verify_json() -> int:
     checked = 0
     for path in ROOT.rglob("*.json"):
-        if {"tmp", ".venv", "__pycache__", ".pytest_cache"}.intersection(path.parts):
+        parts = _relative_parts(path)
+        if {"tmp", ".venv", "__pycache__", ".pytest_cache"}.intersection(parts):
             continue
-        if any(part.startswith(".") and part not in {".github"} for part in path.parts):
+        if any(part.startswith(".") and part not in {".github"} for part in parts):
             continue
         with path.open(encoding="utf-8") as stream:
             json.load(stream)
@@ -181,7 +193,7 @@ def verify_no_secrets() -> None:
     findings: list[str] = []
     excluded = {".git", ".venv", "tmp", "__pycache__", ".pytest_cache"}
     for path in ROOT.rglob("*"):
-        if not path.is_file() or excluded.intersection(path.parts):
+        if not path.is_file() or excluded.intersection(_relative_parts(path)):
             continue
         if path.suffix.lower() in {".png", ".jpg", ".jpeg", ".pdf", ".pptx"}:
             continue
@@ -234,7 +246,7 @@ def main() -> None:
     file_count = sum(
         path.is_file()
         for path in ROOT.rglob("*")
-        if not {".git", ".venv", "tmp"}.intersection(path.parts)
+        if not {".git", ".venv", "tmp"}.intersection(_relative_parts(path))
     )
     print(
         "[PASS] repository contracts verified: "
