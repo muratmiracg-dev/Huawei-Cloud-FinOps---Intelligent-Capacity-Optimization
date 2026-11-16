@@ -6,6 +6,17 @@ All notable changes are documented in this file.
 
 ### Fixed
 
+- A month still in progress was read as a full month. With a daily export ending
+  on 15 June, flat spend of 300 a month showed `current_monthly_cost` 150, a
+  savings opportunity of 56% instead of 28%, a July forecast of 103 instead of
+  300, and a budget that would breach next month reported as healthy. The latest
+  month is now scaled to a full-month run rate when the data is daily and the
+  month is incomplete (`month_completion_ratio`, which existed but was unused).
+  The demo data covers complete months, so its outputs are unchanged.
+- `scripts/verify_repository.py` applied its `tmp`/dot-directory exclusions to the
+  absolute path, so in a checkout under `/tmp` (or any dot-directory) the secret
+  scan and the JSON check skipped every file and passed. A planted GitHub token was
+  not reported. Exclusions now use the path below the repository root.
 - Budget status now uses each scope's own billing records. Actual and forecast
   cost were previously apportioned from the portfolio total by each scope's share
   of inventory `monthly_cost`, so a spike in one product or environment was spread

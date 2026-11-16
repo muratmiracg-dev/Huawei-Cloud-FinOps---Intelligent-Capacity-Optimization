@@ -105,6 +105,17 @@ Monthly amortized cost is aggregated and fitted with transparent least-squares
 trend. Future months use the trend plus a widening 90% uncertainty band based
 on residual standard deviation.
 
+Daily billing exports normally stop part-way through the current month. When the
+previous month's records run to its last day but the latest month's stop earlier,
+the latest month is partial and is scaled to a full-month run rate
+(`month-to-date cost / share of the month elapsed`) before it is used as the
+trend's last point, as the summary's `current_monthly_cost` and in each budget's
+forecast. Budget utilization against the limit still uses the real month-to-date
+cost. Monthly exports and single-month histories are never scaled. Without this,
+a half-finished month looks like a 50% cost drop: the trend bends down, savings
+percentages are measured against half a month, and forecast budget breaches are
+missed.
+
 The model is intentionally explainable and dependency-light. A production
 organization can replace the forecasting service with Prophet, ARIMA, or a
 hierarchical model without changing the API or canonical data contract.

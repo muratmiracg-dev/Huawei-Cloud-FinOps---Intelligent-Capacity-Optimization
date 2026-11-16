@@ -31,7 +31,8 @@ def monthly_costs(records: Sequence[CostRecord]) -> list[tuple[str, float]]:
 def forecast_monthly_cost(
     records: Sequence[CostRecord], months: int = 3
 ) -> list[ForecastPoint]:
-    return forecast_monthly_series(monthly_costs(records), months)
+    history = with_run_rate(monthly_costs(records), month_completion_ratio(records))
+    return forecast_monthly_series(history, months)
 
 
 def forecast_monthly_series(
@@ -96,8 +97,49 @@ def latest_month_cost(records: Sequence[CostRecord]) -> float:
 
 
 def month_completion_ratio(records: Sequence[CostRecord]) -> float:
+    """Share of the latest billing month covered by the data, in (0, 1].
+
+    Daily billing exports usually end part-way through the current month. A month
+    counts as partial only when the data is evidently daily: the previous month's
+    records run to its last calendar day while the latest month's stop earlier.
+    Monthly exports (one record per month, often dated the 1st) and single-month
+    histories are treated as complete, because day-of-month says nothing there.
+    """
+
     if not records:
         return 1.0
-    latest_date = max(record.record_date for record in records)
-    days_in_month = calendar.monthrange(latest_date.year, latest_date.month)[1]
-    return min(1.0, latest_date.day / days_in_month)
+    dates = {record.record_date for record in records}
+    latest = max(dates)
+    previous_year, previous_month = _next_month(latest.year, latest.month, -1)
+    previous = [
+        d for d in dates if (d.year, d.month) == (previous_year, previous_month)
+    ]
+    if not previous:
+        return 1.0
+    if max(previous).day != calendar.monthrange(previous_year, previous_month)[1]:
+        return 1.0
+    days_in_month = calendar.monthrange(latest.year, latest.month)[1]
+    return min(1.0, latest.day / days_in_month)
+
+
+def with_run_rate(
+    history: Sequence[tuple[str, float]], completion: float
+) -> list[tuple[str, float]]:
+    """Scale a partial latest month to a full-month run rate.
+
+    Treating month-to-date spend as a full month makes the latest point look like a
+    sharp drop, which bends the trend down and hides forecast budget breaches.
+    """
+
+    adjusted = list(history)
+    if adjusted and 0 < completion < 1:
+        period, value = adjusted[-1]
+        adjusted[-1] = (period, round(value / completion, 2))
+    return adjusted
+
+
+def latest_month_run_rate(records: Sequence[CostRecord]) -> float:
+    """Latest month's cost, projected to a full month when the month is partial."""
+
+    history = with_run_rate(monthly_costs(records), month_completion_ratio(records))
+    return history[-1][1] if history else 0.0
