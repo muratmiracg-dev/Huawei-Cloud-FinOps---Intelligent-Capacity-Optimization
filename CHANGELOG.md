@@ -6,6 +6,13 @@ All notable changes are documented in this file.
 
 ### Fixed
 
+- Utilization-based savings actions had no minimum observation window: a single
+  day at 5% CPU produced "stop the workload" for a dev box or "move down a
+  flavor" for production, with 0.56 confidence. Stop, rightsize, request-tuning
+  and commitment recommendations now need at least 14 distinct observation days
+  (`MINIMUM_OBSERVATION_DAYS`, also in `.env.example`, the Kubernetes ConfigMap
+  and Helm values). Capacity-risk warnings are still raised on shorter windows.
+  The 30-day demo data and its outputs are unchanged.
 - A month still in progress was read as a full month. With a daily export ending
   on 15 June, flat spend of 300 a month showed `current_monthly_cost` 150, a
   savings opportunity of 56% instead of 28%, a July forecast of 103 instead of

@@ -16,6 +16,7 @@ class Settings:
     forecast_months: int = 3
     minimum_savings_usd: float = 5.0
     headroom_pct: float = 25.0
+    minimum_observation_days: int = 14
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -27,4 +28,5 @@ class Settings:
             forecast_months=int(os.getenv("FORECAST_MONTHS", "3")),
             minimum_savings_usd=float(os.getenv("MINIMUM_SAVINGS_USD", "5")),
             headroom_pct=float(os.getenv("CAPACITY_HEADROOM_PCT", "25")),
+            minimum_observation_days=int(os.getenv("MINIMUM_OBSERVATION_DAYS", "14")),
         )
