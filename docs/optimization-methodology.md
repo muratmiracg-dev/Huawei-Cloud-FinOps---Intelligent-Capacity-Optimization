@@ -67,6 +67,17 @@ This produces a deliberately conservative, non-overlapping estimate.
 Annualized opportunity is monthly opportunity multiplied by 12. It is a
 decision-support scenario, not guaranteed realized savings.
 
+## Minimum observation window
+
+Utilization-based savings actions (stop an idle non-production workload,
+rightsize, tune Kubernetes requests, buy a commitment) require at least 14
+distinct observation days (`MINIMUM_OBSERVATION_DAYS`). A shorter window cannot
+show weekly peaks, so a quiet day or weekend would otherwise be enough to
+recommend stopping or shrinking a workload. Capacity-risk warnings are still
+raised on shorter windows, and inventory-only signals (unattached volumes,
+missing tags, 24x7 non-production schedules, OBS lifecycle) do not depend on
+utilization history.
+
 ## Confidence
 
 Recommendation confidence increases with distinct observation days:

@@ -123,6 +123,61 @@ class OptimizationTests(unittest.TestCase):
             max(entry.estimated_monthly_savings for entry in recommendations),
         )
 
+    def test_short_history_blocks_savings_actions(self):
+        # One day at 5% CPU used to recommend stopping a dev box or downsizing production.
+        cases = (
+            (
+                resource(environment="development"),
+                samples(cpu=2, memory=5, network=2, days=1),
+            ),
+            (resource(), samples(cpu=5, memory=10, network=5, days=13)),
+            (resource(), samples(cpu=20, memory=30, days=3)),
+            (
+                resource(
+                    environment="production", pricing_mode=PricingMode.PAY_PER_USE
+                ),
+                samples(cpu=50, memory=55, days=7),
+            ),
+            (
+                resource(service=ServiceType.CCE_NODE),
+                samples(cpu=20, memory=30, request_cpu=70, request_memory=75, days=5),
+            ),
+        )
+        blocked = {
+            RecommendationType.IDLE_RESOURCE,
+            RecommendationType.RIGHTSIZE,
+            RecommendationType.COMMITMENT,
+            RecommendationType.REQUEST_TUNING,
+        }
+        for item, history in cases:
+            with self.subTest(service=item.service, days=len(history)):
+                found = self.types(generate_recommendations([item], history))
+                self.assertFalse(found & blocked, found)
+
+    def test_fourteen_days_is_enough(self):
+        recommendations = generate_recommendations(
+            [resource()], samples(cpu=20, memory=30, days=14)
+        )
+        self.assertIn(RecommendationType.RIGHTSIZE, self.types(recommendations))
+
+    def test_capacity_risk_is_raised_on_short_history(self):
+        recommendations = generate_recommendations(
+            [resource()], samples(cpu=92, memory=70, days=2)
+        )
+        self.assertIn(RecommendationType.CAPACITY_RISK, self.types(recommendations))
+
+    def test_observation_window_is_configurable_and_validated(self):
+        history = samples(cpu=20, memory=30, days=3)
+        relaxed = generate_recommendations(
+            [resource()], history, minimum_observation_days=3
+        )
+        self.assertIn(RecommendationType.RIGHTSIZE, self.types(relaxed))
+        for value in (0, -1, 1.5, True, "14"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                generate_recommendations(
+                    [resource()], history, minimum_observation_days=value
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

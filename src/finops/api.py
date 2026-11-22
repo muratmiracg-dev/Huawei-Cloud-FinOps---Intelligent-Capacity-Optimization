@@ -30,6 +30,7 @@ def build_app(repository: FinOpsRepository | None = None) -> FastAPI:
         repo,
         minimum_savings=settings.minimum_savings_usd,
         headroom_pct=settings.headroom_pct,
+        minimum_observation_days=settings.minimum_observation_days,
     )
     app = FastAPI(
         title="Huawei Cloud FinOps & Intelligent Capacity Optimization API",

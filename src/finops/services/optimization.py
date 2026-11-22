@@ -34,6 +34,12 @@ def _recommendation_id(
     return f"rec-{digest}"
 
 
+# Utilization-based savings actions (stop, downsize, commit) need enough history to see
+# weekly peaks. Two full weeks is the floor; capacity-risk warnings are still raised on
+# shorter windows because under-provisioning is the safer error to flag early.
+DEFAULT_MINIMUM_OBSERVATION_DAYS = 14
+
+
 def _confidence(samples: Sequence[UtilizationSample]) -> float:
     days = len({sample.timestamp.date() for sample in samples})
     return round(min(0.98, 0.55 + min(days, 30) / 30 * 0.4), 2)
@@ -73,7 +79,14 @@ def generate_recommendations(
     *,
     minimum_savings: float = 5.0,
     headroom_pct: float = 25.0,
+    minimum_observation_days: int = DEFAULT_MINIMUM_OBSERVATION_DAYS,
 ) -> list[Recommendation]:
+    if (
+        isinstance(minimum_observation_days, bool)
+        or not isinstance(minimum_observation_days, int)
+        or minimum_observation_days < 1
+    ):
+        raise ValueError("minimum_observation_days must be a positive integer")
     samples_by_resource: defaultdict[str, list[UtilizationSample]] = defaultdict(list)
     for sample in utilization:
         samples_by_resource[sample.resource_id].append(sample)
@@ -87,8 +100,10 @@ def generate_recommendations(
         network_p95 = percentile([sample.network_pct for sample in samples], 0.95)
         request_cpu_avg = mean([sample.request_cpu_pct for sample in samples])
         request_memory_avg = mean([sample.request_memory_pct for sample in samples])
+        observation_days = len({sample.timestamp.date() for sample in samples})
+        enough_history = observation_days >= minimum_observation_days
         evidence = {
-            "observation_days": len({sample.timestamp.date() for sample in samples}),
+            "observation_days": observation_days,
             "cpu_p95_pct": round(cpu_p95, 2),
             "memory_p95_pct": round(memory_p95, 2),
             "network_p95_pct": round(network_p95, 2),
@@ -156,6 +171,9 @@ def generate_recommendations(
                     evidence,
                 )
             )
+        elif not enough_history:
+            # Too little history to justify stopping, downsizing or committing.
+            pass
         elif cpu_p95 < 8 and memory_p95 < 15 and network_p95 < 10:
             if resource.environment.lower() in {"development", "dev", "test", "qa"}:
                 recommendations.append(
@@ -204,7 +222,8 @@ def generate_recommendations(
             )
 
         if (
-            resource.service == ServiceType.CCE_NODE
+            enough_history
+            and resource.service == ServiceType.CCE_NODE
             and request_cpu_avg > cpu_p95 + 20
             and request_memory_avg > memory_p95 + 15
         ):
@@ -247,7 +266,8 @@ def generate_recommendations(
 
         stable_band = max(cpu_p95, memory_p95)
         if (
-            resource.pricing_mode == PricingMode.PAY_PER_USE
+            enough_history
+            and resource.pricing_mode == PricingMode.PAY_PER_USE
             and resource.environment == "production"
             and 35 <= stable_band < 80
         ):

@@ -16,6 +16,7 @@ from finops.services.budgets import budget_coverage, evaluate_budgets
 from finops.services.forecast import forecast_monthly_cost, latest_month_run_rate
 from finops.services.maturity import calculate_maturity_score
 from finops.services.optimization import (
+    DEFAULT_MINIMUM_OBSERVATION_DAYS,
     generate_recommendations,
     non_overlapping_savings,
 )
@@ -28,10 +29,12 @@ class FinOpsEngine:
         *,
         minimum_savings: float = 5.0,
         headroom_pct: float = 25.0,
+        minimum_observation_days: int = DEFAULT_MINIMUM_OBSERVATION_DAYS,
     ):
         self.repository = repository
         self.minimum_savings = minimum_savings
         self.headroom_pct = headroom_pct
+        self.minimum_observation_days = minimum_observation_days
 
     def recommendations(self) -> list[Recommendation]:
         return generate_recommendations(
@@ -39,6 +42,7 @@ class FinOpsEngine:
             self.repository.utilization(),
             minimum_savings=self.minimum_savings,
             headroom_pct=self.headroom_pct,
+            minimum_observation_days=self.minimum_observation_days,
         )
 
     def anomalies(self) -> list[CostAnomaly]:
