@@ -6,6 +6,12 @@ All notable changes are documented in this file.
 
 ### Fixed
 
+- A daily export that starts part-way through a month was read as a full month of
+  spend for that first month. The low first point tilted the cost trend upward: flat spend
+  of about 300 per month starting on 15 March forecast 370 for July. The earliest month is
+  now scaled to a full-month run rate when the data is evidently daily (the following month
+  starts on day 1). This mirrors the partial latest-month fix and applies to both the
+  forecast and the budget forecasts.
 - Utilization-based savings actions had no minimum observation window: a single
   day at 5% CPU produced "stop the workload" for a dev box or "move down a
   flavor" for production, with 0.56 confidence. Stop, rightsize, request-tuning

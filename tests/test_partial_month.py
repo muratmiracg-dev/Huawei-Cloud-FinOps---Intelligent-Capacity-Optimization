@@ -10,6 +10,7 @@ from finops.models import CostRecord, ServiceType
 from finops.repository import InMemoryRepository
 from finops.services.budgets import evaluate_budgets
 from finops.services.forecast import (
+    first_month_completion_ratio,
     forecast_monthly_cost,
     latest_month_run_rate,
     month_completion_ratio,
@@ -88,3 +89,26 @@ class PartialMonthDecisionTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+# Flat 10/day from 15 March to 30 June: March is half covered, April to June are complete.
+DAILY_FROM_MID_MARCH = costs(daily=10, days=108, start=date(2026, 3, 15))
+
+
+class PartialFirstMonthTests(unittest.TestCase):
+    def test_daily_export_starting_mid_month_is_partial(self):
+        self.assertAlmostEqual(
+            first_month_completion_ratio(DAILY_FROM_MID_MARCH), 17 / 31
+        )
+        self.assertEqual(month_completion_ratio(DAILY_FROM_MID_MARCH), 1.0)
+
+    def test_monthly_export_first_month_is_never_scaled(self):
+        records = [_monthly(4, 300), _monthly(5, 310), _monthly(6, 320)]
+        self.assertEqual(first_month_completion_ratio(records), 1.0)
+
+    def test_forecast_does_not_read_a_partial_first_month_as_growth(self):
+        forecast = forecast_monthly_cost(DAILY_FROM_MID_MARCH, 1)[0]
+        # Flat spend of about 300 per month. The 170 of half-covered March used to tilt
+        # the trend upward to a July forecast of roughly 375.
+        self.assertEqual(forecast.period, "2026-07")
+        self.assertAlmostEqual(forecast.predicted_cost, 305, delta=10)

@@ -32,6 +32,7 @@ def forecast_monthly_cost(
     records: Sequence[CostRecord], months: int = 3
 ) -> list[ForecastPoint]:
     history = with_run_rate(monthly_costs(records), month_completion_ratio(records))
+    history = with_start_run_rate(history, first_month_completion_ratio(records))
     return forecast_monthly_series(history, months)
 
 
@@ -120,6 +121,42 @@ def month_completion_ratio(records: Sequence[CostRecord]) -> float:
         return 1.0
     days_in_month = calendar.monthrange(latest.year, latest.month)[1]
     return min(1.0, latest.day / days_in_month)
+
+
+def first_month_completion_ratio(records: Sequence[CostRecord]) -> float:
+    """Share of the earliest billing month covered by the data, in (0, 1].
+
+    The mirror image of ``month_completion_ratio``: a daily export that starts on
+    15 March holds half of March, and reading it as a full month makes the first
+    point look like a low and bends the trend upward. The month counts as partial only
+    when the data is evidently daily: the following month's records start on its first
+    day while the earliest month's start later.
+    """
+
+    if not records:
+        return 1.0
+    dates = {record.record_date for record in records}
+    earliest = min(dates)
+    if earliest.day == 1:
+        return 1.0
+    next_year, next_month = _next_month(earliest.year, earliest.month, 1)
+    following = [d for d in dates if (d.year, d.month) == (next_year, next_month)]
+    if not following or min(following).day != 1:
+        return 1.0
+    days_in_month = calendar.monthrange(earliest.year, earliest.month)[1]
+    return (days_in_month - earliest.day + 1) / days_in_month
+
+
+def with_start_run_rate(
+    history: Sequence[tuple[str, float]], completion: float
+) -> list[tuple[str, float]]:
+    """Scale a partial earliest month to a full-month run rate (needs two or more months)."""
+
+    adjusted = list(history)
+    if len(adjusted) >= 2 and 0 < completion < 1:
+        period, value = adjusted[0]
+        adjusted[0] = (period, round(value / completion, 2))
+    return adjusted
 
 
 def with_run_rate(
