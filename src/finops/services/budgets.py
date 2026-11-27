@@ -6,10 +6,12 @@ from collections.abc import Sequence
 
 from finops.models import Budget, BudgetStatus, CloudResource, CostRecord
 from finops.services.forecast import (
+    first_month_completion_ratio,
     forecast_monthly_series,
     month_completion_ratio,
     monthly_costs,
     with_run_rate,
+    with_start_run_rate,
 )
 
 
@@ -78,6 +80,7 @@ def evaluate_budgets(
     # Completeness is a property of the billing export, so it is measured on the
     # portfolio: a scope with no spend in the last few days is not "less complete".
     completion = month_completion_ratio(costs)
+    start_completion = first_month_completion_ratio(costs)
 
     statuses: list[BudgetStatus] = []
     for budget in budgets:
@@ -92,6 +95,8 @@ def evaluate_budgets(
         actual = history[-1][1] if history else 0.0
         if history and history[-1][0] == portfolio_periods[-1]:
             history = with_run_rate(history, completion)
+        if history and history[0][0] == portfolio_periods[0]:
+            history = with_start_run_rate(history, start_completion)
         forecast = forecast_monthly_series(history, 1)
         predicted = forecast[0].predicted_cost if forecast else 0.0
         actual_pct = actual / budget.monthly_limit * 100 if budget.monthly_limit else 0
